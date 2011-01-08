@@ -1,0 +1,1 @@
+CREATE DATABASE `crmdemo` COLLATE 'utf8_bin';
