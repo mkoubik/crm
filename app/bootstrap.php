@@ -18,6 +18,10 @@ use Nette\Application\Route;
 // you don't have to litter your code with 'require' statements
 require LIBS_DIR . '/Nette/Nette/loader.php';
 
+// Setup testing environment
+if (basename($_SERVER['SCRIPT_NAME']) == 'phpunit') {
+    Environment::setName('testing');
+}
 
 
 // Step 2: Configure environment
@@ -48,4 +52,6 @@ $router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 
 
 // Step 5: Run the application!
-$application->run();
+if (!Environment::isConsole()) {
+    $application->run();
+}
