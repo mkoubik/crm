@@ -13,8 +13,8 @@ class MockModelProvider extends \Crm\Model\Provider\ModelProvider
     
     public function getModel($name)
     {
-        $this->requiredModels[$name] = true;
         $model = new MockModel();
+        $this->requiredModels[$name] = $model;
         $model->name = $name;
         return $model;
     }

@@ -1,0 +1,9 @@
+{block content}
+<h2>Accounts</h2>
+{if !empty($accounts)}
+    <p n:foreach="$accounts as $account">
+        <h3>{$account->name}</h3>
+    </p>
+{else}
+    <p>No accounts aviable.</p>
+{/if}
