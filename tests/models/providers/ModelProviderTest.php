@@ -1,6 +1,6 @@
 <?php
 
-//require_once dirname(__FILE__) . '/JustForTestingExampleOfExistingModel.php';
+require_once dirname(__FILE__) . '/MockModelProvider.php';
 
 /**
  * Description of ModelProviderTest
@@ -64,20 +64,10 @@ class ModelProviderTest extends BaseTest
     
     public function testProvidesDefinedModels()
     {
-        $provider = new FakeProvider();
+        $provider = new MockModelProvider();
         $provider->getAccountsModel();
         $this->assertArrayHasKey('accounts', $provider->requiredModels);
     }
 }
 
 class JustForThisTesExampleOfExistingModel {}
-
-class FakeProvider extends \Crm\Model\Provider\ModelProvider
-{
-    public $requiredModels = array();
-    
-    public function getModel($name)
-    {
-        $this->requiredModels[$name] = true;
-    }
-}

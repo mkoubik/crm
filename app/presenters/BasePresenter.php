@@ -4,11 +4,15 @@
  * Description of BasePresenter
  *
  * @author matej
+ * @property-read Crm\Model\AccountsModel $accountsModel
  */
 abstract class BasePresenter extends Nette\Application\Presenter
 {
     /** @var Crm\Model\Provider\IModelProvider */
     private $modelProvider;
+    
+    /** @var array */
+    private $models = array();
     
     /** @return Crm\Model\Provider\IModelProvider */
     public function getModelProvider()
@@ -27,5 +31,19 @@ abstract class BasePresenter extends Nette\Application\Presenter
     {
         $this->modelProvider = $provider;
         return $this;
+    }
+    
+    public function  getModel($name)
+    {
+        if (!isset($this->models[$name])) {
+            $this->models[$name] = $this->getModelProvider()->getModel($name);
+        }
+        return $this->models[$name];
+    }
+
+    /** @return Crm\Model\AccountsModel */
+    public function getAccountsModel()
+    {
+        return $this->getModel('accounts');
     }
 }
