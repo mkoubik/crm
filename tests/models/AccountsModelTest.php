@@ -22,6 +22,6 @@ class AccountsModelTest extends BaseTest
     public function testGetAllSql()
     {
         $all = $this->model->getAll();
-        $this->assertEquals('SELECT * FROM `accounts`', $all->getSql());
+        $this->assertEquals('SELECT * FROM `accounts_list_view`', $all->getSql());
     }
 }

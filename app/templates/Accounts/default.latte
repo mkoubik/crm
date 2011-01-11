@@ -3,6 +3,8 @@
 {if !empty($accounts)}
     <p n:foreach="$accounts as $account">
         <h3>{$account->name}</h3>
+        <p><span n:if="$account->contacts_count">{$account->contacts_count} contacts</span></p>
+        {sep}<hr />{/sep}
     </p>
 {else}
     <p>No accounts aviable.</p>

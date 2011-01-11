@@ -11,6 +11,6 @@ class AccountsModel extends BaseModel
     /** @return \Nette\Database\Selector\TableSelection */
     public function getAll()
     {
-        return $this->db->table('accounts');
+        return $this->db->table('accounts_list_view');
     }
 }
