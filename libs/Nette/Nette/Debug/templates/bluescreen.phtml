@@ -61,6 +61,10 @@ if (headers_sent()) {
 
 	<style type="text/css" class="nette">
 
+		html {
+			overflow-y: scroll;
+		}
+
 		body {
 			margin: 0 0 2em;
 			padding: 0;
@@ -97,6 +101,22 @@ if (headers_sent()) {
 			font-style: italic;
 		}
 
+		#netteBluescreen a {
+			text-decoration: none;
+			color: #328ADC;
+			padding: 2px 4px;
+			margin: -2px -4px;
+		}
+
+		#netteBluescreen a:hover, #netteBluescreen a:active, #netteBluescreen a:focus {
+			color: #085AA3;
+		}
+
+		#netteBluescreen a abbr {
+			font-family: sans-serif;
+			color: #BBB;
+		}
+
 		#netteBluescreenIcon {
 			position: absolute;
 			right: .5em;
@@ -114,6 +134,15 @@ if (headers_sent()) {
 			display: block;
 		}
 
+		#netteBluescreenError #netteBsSearch {
+			color: #CD1818;
+			font-size: .7em;
+		}
+
+		#netteBluescreenError:hover #netteBsSearch {
+			color: #ED8383;
+		}
+
 		#netteBluescreen h1 {
 			font-size: 18pt;
 			font-weight: normal;
@@ -125,18 +154,6 @@ if (headers_sent()) {
 			font: 14pt/1.5 sans-serif !important;
 			color: #888;
 			margin: .6em 0;
-		}
-
-		#netteBluescreen a {
-			text-decoration: none;
-			color: #328ADC;
-			padding: 2px 4px;
-			margin: -2px -4px;
-		}
-
-		#netteBluescreen a abbr {
-			font-family: sans-serif;
-			color: #BBB;
 		}
 
 		#netteBluescreen h3 {
@@ -243,7 +260,7 @@ if (headers_sent()) {
 
 		#netteBluescreen a[href^=editor\:] {
 			color: inherit;
-			border-bottom: 1px dotted #328ADC;
+			border-bottom: 1px dotted #C1D2E1;
 		}
 	</style>
 </head>
@@ -258,7 +275,7 @@ if (headers_sent()) {
 		<div id="netteBluescreenError" class="panel">
 			<h1><?php echo htmlspecialchars($title), ($exception->getCode() ? ' #' . $exception->getCode() : '') ?></h1>
 
-			<p><?php echo htmlspecialchars($exception->getMessage()) ?></p>
+			<p><?php echo htmlspecialchars($exception->getMessage()) ?> <a href="http://www.google.cz/search?sourceid=nette&amp;q=<?php echo urlencode($title . ' ' . preg_replace('#\'.*\'|".*"#Us', '', $exception->getMessage())) ?>" id="netteBsSearch">search&#x25ba;</a></p>
 		</div>
 
 
@@ -520,7 +537,7 @@ if (headers_sent()) {
 	document.body.appendChild(bs);
 	document.onkeyup = function(e) {
 		e = e || window.event;
-		if (e.keyCode == 27) {
+		if (e.keyCode == 27 && !e.shiftKey && !e.altKey && !e.ctrlKey && !e.metaKey) {
 			bs.onclick({target: document.getElementById('netteBluescreenIcon')});
 		}
 	};

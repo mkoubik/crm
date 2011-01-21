@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nette Framework.
  *
- * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
@@ -41,6 +41,16 @@ class Statement extends \PDOStatement
 
 
 	/**
+	 * @return Connection
+	 */
+	public function getConnection()
+	{
+		return $this->connection;
+	}
+
+
+
+	/**
 	 * Executes statement.
 	 * @param  array
 	 * @return Statement  provides a fluent interface
@@ -70,6 +80,18 @@ class Statement extends \PDOStatement
 	public function fetchPairs()
 	{
 		return $this->fetchAll(PDO::FETCH_KEY_PAIR); // since PHP 5.2.3
+	}
+
+
+
+	/**
+	 * Normalizes result row.
+	 * @param  array
+	 * @return array
+	 */
+	public function normalizeRow($row)
+	{
+		return $this->connection->getSupplementalDriver()->normalizeRow($row, $this);
 	}
 
 

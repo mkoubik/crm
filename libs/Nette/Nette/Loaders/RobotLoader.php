@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nette Framework.
  *
- * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
@@ -73,6 +73,10 @@ class RobotLoader extends AutoLoader
 			$this->list = $cache[$key];
 		} else {
 			$this->rebuild();
+		}
+
+		if (isset($this->list[strtolower(__CLASS__)]) && class_exists('Nette\Loaders\NetteLoader', FALSE)) {
+			NetteLoader::getInstance()->unregister();
 		}
 
 		parent::register();

@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nette Framework.
  *
- * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
@@ -80,6 +80,16 @@ class PdoOdbcDriver extends Nette\Object implements Nette\Database\ISupplemental
 		}
 
 		if ($offset) throw new InvalidArgumentException('Offset is not implemented in driver odbc.');
+	}
+
+
+
+	/**
+	 * Normalizes result row.
+	 */
+	public function normalizeRow($row, $statement)
+	{
+		return $row;
 	}
 
 }

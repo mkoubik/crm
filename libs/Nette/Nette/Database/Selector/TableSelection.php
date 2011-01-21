@@ -3,7 +3,7 @@
 /**
  * This file is part of the Nette Framework.
  *
- * Copyright (c) 2004, 2010 David Grudl (http://davidgrudl.com)
+ * Copyright (c) 2004, 2011 David Grudl (http://davidgrudl.com)
  *
  * This source file is subject to the "Nette license", and/or
  * GPL license. For more information please see http://nette.org
@@ -423,6 +423,7 @@ class TableSelection extends Nette\Object implements \Iterator, \ArrayAccess, \C
 		$this->rows = array();
 		$result->setFetchMode(\PDO::FETCH_ASSOC);
 		foreach ($result as $key => $row) {
+			$row = $result->normalizeRow($row);
 			$this->rows[isset($row[$this->primary]) ? $row[$this->primary] : $key] = new TableRow($row, $this);
 		}
 		$this->data = $this->rows;
