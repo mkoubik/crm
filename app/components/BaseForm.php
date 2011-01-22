@@ -8,9 +8,9 @@ namespace Crm;
  */
 class BaseForm extends \Nette\Application\AppForm
 {
-    public function __construct(Nette\IComponentContainer $parent = NULL, $name = NULL)
+    public function __construct(\Nette\IComponentContainer $parent = NULL, $name = NULL)
     {
-        parent::__construct();
+        parent::__construct($parent, $name);
         $this->addProtection();
     }
 }

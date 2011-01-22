@@ -24,4 +24,14 @@ class BaseFormTest extends BaseTest
         $protector = $this->form[Nette\Forms\Form::PROTECTOR_ID];
         $this->assertType('Nette\\Forms\\HiddenField', $protector);
     }
+    
+    public function testDelegatesParentAndName()
+    {
+        $parent = new FakeControl();
+        $form = new Crm\BaseForm($parent, 'testForm');
+        $this->assertTrue($form->getParent() === $parent);
+        $this->assertEquals('testForm', $form->getName());
+    }
 }
+
+class FakeControl extends Nette\Application\Control {}
