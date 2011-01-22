@@ -35,28 +35,32 @@ class BasePresenterTest extends BaseTest
     public function testGetModel()
     {
         $presenter = new TestPresenter();
-        $presenter->setModelProvider(new MockModelProvider());
+        $provider = new MockModelProvider();
+        $provider->setModel('fooBar', array());
+        $presenter->setModelProvider($provider);
         $model = $presenter->getTestModel();
-        $this->assertTrue($model instanceof MockModel);
-        $this->assertEquals('fooBar', $model->name);
+        $this->assertEquals(array(), $model);
     }
     
     public function testGetModelCachesModels()
     {
         $presenter = new TestPresenter();
-        $presenter->setModelProvider(new MockModelProvider());
-        $model1 = $presenter->getTestModel();
-        $model2 = $presenter->getTestModel();
-        $this->assertTrue($model1 === $model2);
+        $provider = new MockModelProvider();
+        $provider->setModel('fooBar', array());
+        $presenter->setModelProvider($provider);
+        $presenter->getTestModel();
+        $presenter->getTestModel();
+        $this->assertEquals(1, $provider->requiredModels['fooBar']);
     }
     
     public function testModelProperties()
     {
         $presenter = new TestPresenter();
-        $presenter->setModelProvider(new MockModelProvider());
+        $provider = new MockModelProvider();
+        $provider->setModel('accounts', array());
+        $presenter->setModelProvider($provider);
         $model = $presenter->getAccountsModelByProperty();
-        $this->assertTrue($model instanceof MockModel);
-        $this->assertEquals('accounts', $model->name);
+        $this->assertEquals(array(), $model);
     }
 }
 

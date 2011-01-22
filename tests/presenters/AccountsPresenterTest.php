@@ -6,25 +6,41 @@
  */
 class AccountsPresenterTest extends BaseTest
 {
+    /** @var AccountsPresenter */
+    private $presenter;
+    
+    /** @var \Crm\Model\Provider\ModelProvider */
+    private $provider;
+    
+    public function setUp()
+    {
+        $this->presenter = new AccountsPresenter(null, 'Accounts');
+        $this->presenter->autoCanonicalize = false;
+        
+        $this->provider = new MockModelProvider();
+        $this->presenter->setModelProvider($this->provider);
+    }
+    
     public function testListOfAccounts()
     {
-        $presenter = new AccountsPresenter(null, 'Accounts');
-        $presenter->autoCanonicalize = false;
+        $table = $this->getMock('\\Nette\\Database\\Selector\\TableSelection', array('order'), array(), '', false);
+        $table->expects($this->once())->method('order')->with('name')
+                ->will($this->returnValue(array('test')));
         
-        $provider = new MockModelProvider();
-        $presenter->setModelProvider($provider);
+        $model = $this->getMock('AccountsModel', array('getAll'));
+        $model->expects($this->once())->method('getAll')
+                ->will($this->returnValue($table));
+        
+        $this->presenter->getModelProvider()->setModel('accounts', $model);
         
         $req = new \Nette\Application\PresenterRequest('Accounts', 'GET', array());
-        $res = $presenter->run($req);
+        $res = $this->presenter->run($req);
         
         $this->assertType('Nette\Application\RenderResponse', $res);
-        $this->assertArrayHasKey('accounts', $provider->requiredModels);
-        $model = $provider->requiredModels['accounts'];
-        $this->assertEquals('getAll', $model->calledMethods[0]['name']);
-        $this->assertEquals('order', $model->calledMethods[1]['name']);
-        $this->assertEquals('name', $model->calledMethods[1]['arguments'][0]);
+        $this->assertArrayHasKey('accounts', $this->provider->requiredModels);
         
-        // MockModel has returned itself to presenter, check if pressenter has passed it to the template
-        $this->assertType('MockModel', $res->getSource()->accounts);
+        $this->assertEquals(array('test'), $res->getSource()->accounts);
+    }
+    
     }
 }

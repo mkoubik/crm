@@ -11,11 +11,20 @@ class MockModelProvider extends \Crm\Model\Provider\ModelProvider
 {
     public $requiredModels = array();
     
+    private $models = array();
+    
+    public function setModel($name, $model)
+    {
+        $this->models[$name] = $model;
+        return $this;
+    }
+    
     public function getModel($name)
     {
-        $model = new MockModel();
-        $this->requiredModels[$name] = $model;
-        $model->name = $name;
-        return $model;
+        if (!isset($this->requiredModels[$name])) {
+            $this->requiredModels[$name] = 0;
+        }
+        $this->requiredModels[$name]++;
+        return $this->models[$name];
     }
 }

@@ -65,8 +65,9 @@ class ModelProviderTest extends BaseTest
     public function testProvidesDefinedModels()
     {
         $provider = new MockModelProvider();
+        $provider->setModel('accounts', array());
         $provider->getAccountsModel();
-        $this->assertArrayHasKey('accounts', $provider->requiredModels);
+        $this->assertEquals(1, $provider->requiredModels['accounts']);
     }
 }
 
