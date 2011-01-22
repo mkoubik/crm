@@ -13,4 +13,12 @@ class AccountsModel extends BaseModel
     {
         return $this->db->table('accounts_list_view');
     }
+    
+    public function add(array $data)
+    {
+        $row = $this->db->table('accounts')->insert(array(
+            'name' => $data['name'],
+        ));
+        return $row->id;
+    }
 }
