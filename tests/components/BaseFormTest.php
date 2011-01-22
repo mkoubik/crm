@@ -14,8 +14,7 @@ class BaseFormTest extends BaseTest
     
     public function  setUp()
     {
-        \Nette\Environment::getContext()->removeService('Nette\\Web\\Session');
-        \Nette\Environment::getContext()->addService('Nette\\Web\\Session', new DummySession());
+        $this->disableSessions();
         $this->form = new Crm\BaseForm();
     }
     
