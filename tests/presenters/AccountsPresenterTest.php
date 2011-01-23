@@ -86,4 +86,45 @@ class AccountsPresenterTest extends BaseTest
         $res = $this->presenter->run($req);
         $this->assertType('\\Nette\\Application\\RedirectingResponse', $res);
     }
+    
+    public function testDetail()
+    {
+        $result = array(array('name' => 'account'));
+        $model = $this->getMock('Crm\\Model\\AccountsModel', array('getById'));
+        $model->expects($this->once())->method('getById')
+                ->with(123)
+                ->will($this->returnValue($result));
+        
+        $this->provider->setModel('accounts', $model);
+        
+        $req = new \Nette\Application\PresenterRequest('Accounts', 'GET', array(
+            'action' => 'show',
+            'id' => 123,
+        ));
+        $res = $this->presenter->run($req);
+        
+        $this->assertType('Nette\Application\RenderResponse', $res);
+        $this->assertArrayHasKey('accounts', $this->provider->requiredModels);
+        
+        $this->assertEquals($result, $this->presenter->template->account);
+    }
+    
+    public function testDetailRedirectsOnNonexistingAccount()
+    {
+        $model = $this->getMock('Crm\\Model\\AccountsModel', array('getById'));
+        $model->expects($this->once())->method('getById')
+                ->with(123)
+                ->will($this->returnValue(false));
+        
+        $this->provider->setModel('accounts', $model);
+        
+        $req = new \Nette\Application\PresenterRequest('Accounts', 'GET', array(
+            'action' => 'show',
+            'id' => 123,
+        ));
+        $res = $this->presenter->run($req);
+        
+        $this->assertType('Nette\Application\RedirectingResponse', $res);
+        $this->assertArrayHasKey('accounts', $this->provider->requiredModels);
+    }
 }

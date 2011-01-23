@@ -11,6 +11,15 @@ class AccountsPresenter extends BasePresenter
         $this->template->accounts = $this->accountsModel->getAll()->order('name');
     }
     
+    public function renderShow($id)
+    {
+        $account = $this->getAccountsModel()->getById($id);
+        if ($account === false) {
+            $this->redirect('default');
+        }
+        $this->template->account = $account;
+    }
+    
     protected function createComponentAddForm($name)
     {
         $form = new Crm\BaseForm($this, $name);

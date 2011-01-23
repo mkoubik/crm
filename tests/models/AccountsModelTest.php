@@ -38,4 +38,24 @@ class AccountsModelTest extends BaseTest
         $this->assertEquals($id, $row->id);
         $this->assertEquals('testing', $row->name);
     }
+    
+    public function testGetById()
+    {
+        $account1 = array('name' => 'testing1');
+        $account2 = array('name' => 'testing2');
+        $table = $this->model->getDb()->table('accounts');
+        $id1 = $table->insert($account1)->id;
+        $id2 = $table->insert($account2)->id;
+        
+        $result1 = $this->model->getById($id1);
+        $result2 = $this->model->getById($id2);
+        $this->assertEquals($account1['name'], $result1->name);
+        $this->assertEquals($account2['name'], $result2->name);
+    }
+    
+    public function testGetByIdReturnsFalseOnNonexistingAccount()
+    {
+        $result = $this->model->getById(123);
+        $this->assertFalse($result);
+    }
 }

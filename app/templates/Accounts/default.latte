@@ -2,7 +2,7 @@
 <h2>Accounts</h2>
 {if !empty($accounts)}
     <p n:foreach="$accounts as $account">
-        <h4>{$account->name}</h4>
+        <a n:href="Accounts:show $account->id"><h4>{$account->name}</h4></a>
         <p><span n:if="$account->contacts_count">{$account->contacts_count} contacts</span></p>
         {sep}<hr />{/sep}
     </p>
