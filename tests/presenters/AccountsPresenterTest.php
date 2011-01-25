@@ -87,6 +87,25 @@ class AccountsPresenterTest extends BaseTest
         $this->assertType('\\Nette\\Application\\RedirectingResponse', $res);
     }
     
+    public function testAddContactForm()
+    {
+        $this->disableSessions();
+        
+        $form = $this->presenter->getComponent('addContactForm');
+        $this->assertType('\\Crm\\PersonForm', $form);
+        
+        $this->assertEquals('ajax', $form->getElementPrototype()->class);
+        
+        $onSubmit = $form->onSubmit;
+        $callback = $onSubmit[0];
+        $this->assertTrue(is_callable($callback));
+        if ($callback instanceof Nette\Callback) {
+            $callback = $callback->getNative();
+        }
+        $this->assertType('AccountsPresenter', $callback[0]);
+        $this->assertEquals('addContactFormSubmited', $callback[1]);
+    }
+    
     public function testDetail()
     {
         $account = array(array('name' => 'account'));

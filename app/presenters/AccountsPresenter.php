@@ -35,4 +35,11 @@ class AccountsPresenter extends BasePresenter
         $this->getAccountsModel()->add($form->values);
         $this->redirect('this');
     }
+    
+    protected function createComponentAddContactForm($name)
+    {
+        $form = new \Crm\PersonForm($this, $name);
+        $form->getElementPrototype()->class = 'ajax';
+        $form->onSubmit[] = callback($this, 'addContactFormSubmited');
+    }
 }

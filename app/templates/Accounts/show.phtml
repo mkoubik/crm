@@ -5,5 +5,7 @@
     <h3>Contacts</h3>
     <p n:foreach="$contacts as $contact">{$contact->first_name} {$contact->last_name}</p>
 {/if}
+<h3>Add a contact</h3>
+{control addContactForm}
 
 <p><a n:href="default">Back to the list of accounts.</a></p>
