@@ -18,6 +18,7 @@ class AccountsPresenter extends BasePresenter
             $this->redirect('default');
         }
         $this->template->account = $account;
+        $this->template->contacts = $this->getContactsModel()->setAccountId((int) $id)->getAll();
     }
     
     protected function createComponentAddForm($name)

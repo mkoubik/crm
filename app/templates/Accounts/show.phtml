@@ -1,3 +1,9 @@
 {block content}
 <h2>Account: {$account->name}</h2>
+
+{if count($contacts) > 0}
+    <h3>Contacts</h3>
+    <p n:foreach="$contacts as $contact">{$contact->first_name} {$contact->last_name}</p>
+{/if}
+
 <p><a n:href="default">Back to the list of accounts.</a></p>

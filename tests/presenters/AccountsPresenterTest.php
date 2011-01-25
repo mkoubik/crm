@@ -89,13 +89,21 @@ class AccountsPresenterTest extends BaseTest
     
     public function testDetail()
     {
-        $result = array(array('name' => 'account'));
-        $model = $this->getMock('Crm\\Model\\AccountsModel', array('getById'));
-        $model->expects($this->once())->method('getById')
+        $account = array(array('name' => 'account'));
+        $accountsModel = $this->getMock('Crm\\Model\\AccountsModel', array('getById'));
+        $accountsModel->expects($this->once())->method('getById')
                 ->with(123)
-                ->will($this->returnValue($result));
+                ->will($this->returnValue($account));
+        $contacts = array(array('first_name' => 'John', 'last_name' => 'Doe', 'office_phone' => null, 'mobile_phone' => null));
+        $contactsModel = $this->getMock('Crm\\Model\\ContactsModel', array('setAccountId', 'getAll'));
+        $contactsModel->expects($this->once())->method('setAccountId')
+                ->with(123)
+                ->will($this->returnValue($contactsModel));
+        $contactsModel->expects($this->once())->method('getAll')
+                ->will($this->returnValue($contacts));
         
-        $this->provider->setModel('accounts', $model);
+        $this->provider->setModel('accounts', $accountsModel);
+        $this->provider->setModel('contacts', $contactsModel);
         
         $req = new \Nette\Application\PresenterRequest('Accounts', 'GET', array(
             'action' => 'show',
@@ -105,8 +113,10 @@ class AccountsPresenterTest extends BaseTest
         
         $this->assertType('Nette\Application\RenderResponse', $res);
         $this->assertArrayHasKey('accounts', $this->provider->requiredModels);
+        $this->assertArrayHasKey('contacts', $this->provider->requiredModels);
         
-        $this->assertEquals($result, $this->presenter->template->account);
+        $this->assertEquals($account, $this->presenter->template->account);
+        $this->assertEquals($contacts, $this->presenter->template->contacts);
     }
     
     public function testDetailRedirectsOnNonexistingAccount()
