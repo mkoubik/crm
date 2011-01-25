@@ -42,4 +42,14 @@ class AccountsPresenter extends BasePresenter
         $form->getElementPrototype()->class = 'ajax';
         $form->onSubmit[] = callback($this, 'addContactFormSubmited');
     }
+    
+    public function addContactFormSubmited(\Crm\PersonForm $form)
+    {
+        $this->getContactsModel()->setAccountId((int) $this->getParam('id'));
+        $this->getContactsModel()->add($form->values);
+        $this->invalidateControl('contacts');
+        if (!$this->isAjax()) {
+            $this->redirect('this');
+        }
+    }
 }

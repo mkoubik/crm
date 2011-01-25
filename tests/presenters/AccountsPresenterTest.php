@@ -106,6 +106,40 @@ class AccountsPresenterTest extends BaseTest
         $this->assertEquals('addContactFormSubmited', $callback[1]);
     }
     
+    public function testAddContactFormSubmit()
+    {
+        $p = new AccountsPresenter();
+        $csrfToken = $p['addContactForm'][Nette\Forms\Form::PROTECTOR_ID]->value;
+        
+        $model = $this->getMock('Crm\\Model\\ContactsModel', array('setAccountId', 'add'));
+        $model->expects($this->once())->method('setAccountId')
+                ->with(123)->will($this->returnValue($model));
+        $model->expects($this->once())->method('add')->with(array(
+                'first_name' => 'John',
+                'last_name' => 'Doe',
+                'office_phone' => '123456789',
+                'mobile_phone' => '987654321',
+            ));
+        $this->provider->setModel('contacts', $model);
+        
+        $req = new \Nette\Application\PresenterRequest('Accounts', 'POST',
+                array(
+                    'action' => 'show',
+                    'id' => '123',
+                    'do' => 'addContactForm-submit',
+                ),
+                array(
+                    'first_name' => 'John',
+                    'last_name' => 'Doe',
+                    'office_phone' => '123456789',
+                    'mobile_phone' => '987654321',
+                    'ok' => 'Create',
+                    Nette\Forms\Form::PROTECTOR_ID => $csrfToken,
+                ));
+        $res = $this->presenter->run($req);
+        $this->assertType('\\Nette\\Application\\RedirectingResponse', $res);
+    }
+    
     public function testDetail()
     {
         $account = array(array('name' => 'account'));
