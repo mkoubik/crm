@@ -62,6 +62,21 @@ class BasePresenterTest extends BaseTest
         $model = $presenter->getAccountsModelByProperty();
         $this->assertEquals(array(), $model);
     }
+    
+    public function testProvidesModels()
+    {
+        $presenter = new TestPresenter();
+        $provider = new MockModelProvider();
+        $presenter->setModelProvider($provider);
+        
+        $provider->setModel('accounts', array());
+        $presenter->getAccountsModel();
+        $this->assertEquals(1, $provider->requiredModels['accounts']);
+        
+        $provider->setModel('contacts', array());
+        $presenter->getContactsModel();
+        $this->assertEquals(1, $provider->requiredModels['contacts']);
+    }
 }
 
 class TestPresenter extends BasePresenter

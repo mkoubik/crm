@@ -16,4 +16,7 @@ interface IModelProvider
     
     /** @return Crm\Model\AccountsModel */
     public function getAccountsModel();
+    
+    /** @return Crm\Model\ContactsModel */
+    public function getContactsModel();
 }

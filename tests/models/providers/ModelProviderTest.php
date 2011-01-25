@@ -62,12 +62,20 @@ class ModelProviderTest extends BaseTest
         $this->provider->getModel('definitelyNotExisting');
     }
     
-    public function testProvidesDefinedModels()
+    public function testProvidesAccountsModels()
     {
         $provider = new MockModelProvider();
         $provider->setModel('accounts', array());
         $provider->getAccountsModel();
         $this->assertEquals(1, $provider->requiredModels['accounts']);
+    }
+    
+    public function testProvidesContactsModels()
+    {
+        $provider = new MockModelProvider();
+        $provider->setModel('contacts', array());
+        $provider->getContactsModel();
+        $this->assertEquals(1, $provider->requiredModels['contacts']);
     }
 }
 

@@ -46,4 +46,10 @@ abstract class BasePresenter extends Nette\Application\Presenter
     {
         return $this->getModel('accounts');
     }
+
+    /** @return Crm\Model\ContactsModel */
+    public function getContactsModel()
+    {
+        return $this->getModel('contacts');
+    }
 }

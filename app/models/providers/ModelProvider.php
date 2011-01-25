@@ -30,6 +30,12 @@ class ModelProvider extends \Nette\Object implements IModelProvider
         return $this->getModel('accounts');
     }
     
+    /** @return Crm\Model\ContactsModel */
+    public function getContactsModel()
+    {
+        return $this->getModel('contacts');
+    }
+    
     /**
      * @param string Model name
      * @return string Class name with namespace
