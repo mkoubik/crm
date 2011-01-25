@@ -32,8 +32,8 @@ class AccountsPresenter extends BasePresenter
     
     public function addFormSubmited(\Nette\Application\AppForm $form)
     {
-        $this->getAccountsModel()->add($form->values);
-        $this->redirect('this');
+        $id = $this->getAccountsModel()->add($form->values);
+        $this->redirect('show', $id);
     }
     
     protected function createComponentAddContactForm($name)
